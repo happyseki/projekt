@@ -4,7 +4,7 @@ class UsersController < ApplicationController
     user = User.create(user_params)
     is_valid = user.valid?
     if is_valid
-      render json: {token: encode_token(user_payload(user))}
+      render json: { token: encode_token(user) }
     else
       render json: { errors: user.errors.full_messages }
     end
@@ -18,9 +18,14 @@ class UsersController < ApplicationController
     # end
   end
 
+  def profile
+    user = User.find(user_id)
+    render json: user
+  end
+
   private
 #strong params
   def user_params
-   params.permit(:username, :pasword)
+   params.permit(:username, :password)
   end
 end
